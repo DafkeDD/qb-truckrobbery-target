@@ -18,7 +18,7 @@ end)
 
 RegisterCommand('thermite', function(source, args)
     -- Please check the parameters below for exports
-    exports["qb-truckrobbery"]:thermiteminigame(10, 3, 3, 10,
+    exports["qb-truckrobbery-target"]:thermiteminigame(10, 3, 3, 10,
     function() -- success
         print("success")
     end,
