@@ -2,7 +2,8 @@
 qb-truckrobbery with qb-target implementation, as well as a hack, and more configurable options
 
 
-# _Config Options are detailed in the actual Config.lua_
+# **_Config Options_**
+##### _Config options are detailed in the Config.lua file._
 
 # Features:
 
