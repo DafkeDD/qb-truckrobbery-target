@@ -108,7 +108,7 @@ function checkWinOrLost(){
     hideAllBlocks()
     window.activateClicking = false;
     $(".container").hide()
-    $.post('https://qb-truckrobbery/ThermiteResult', JSON.stringify({
+    $.post('https://qb-truckrobbery-target/ThermiteResult', JSON.stringify({
         success: true
     }));
   }
@@ -116,7 +116,7 @@ function checkWinOrLost(){
     hideAllBlocks();
     $(".container").hide()
     window.activateClicking = false;
-    $.post('https://qb-truckrobbery/ThermiteResult', JSON.stringify({
+    $.post('https://qb-truckrobbery-target/ThermiteResult', JSON.stringify({
         success: false
     }));
   }
@@ -135,7 +135,7 @@ function isGameForeited(){
         hideAllBlocks();
         $(".container").hide()
         window.activateClicking = false;
-        $.post('https://qb-bankrobbery-target/ThermiteResult', JSON.stringify({
+        $.post('https://qb-truckrobbery-target/ThermiteResult', JSON.stringify({
             success: false
         }));
     }       
