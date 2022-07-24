@@ -42,5 +42,4 @@ _**You can move this location with basic knowledge of qb-target.**_
 
 # For Support
 
-_If you have issues, join my discord!_
-[Join my Discord](https://discord.gg/sYpsygQ7jV)
+_If you have issues, [join my discord](https://discord.gg/sYpsygQ7jV)!_
