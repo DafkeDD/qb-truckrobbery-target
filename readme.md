@@ -39,3 +39,8 @@ _Bitrate is terrible for some reason, but you will still see how it works._
 **To test the location, teleport here: /tp 563.06, -3124.06, 18.77**
 
 _**You can move this location with basic knowledge of qb-target.**_
+
+# For Support
+
+_If you have issues, join my discord!_
+[Join my Discord](https://discord.gg/sYpsygQ7jV)
