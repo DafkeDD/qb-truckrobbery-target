@@ -201,88 +201,175 @@ RegisterNetEvent('qb-truckrobbery:starthack', function()
                     disableMouse = false,
                     disableCombat = true,
                 }, {}, {}, {}, function() -- Done
-                    exports["qb-truckrobbery"]:thermiteminigame(10, 3, 3, 6,
+                    if Config.HackType == "laptop" then
+                        exports["hacking"]:hacking(
+                        function() -- success
+                            cooldown = true
+                            TriggerServerEvent('qb-truckrobbery:setcooldown')
+                            QBCore.Functions.Notify(Config.HackSuccessNotification, 'success', 4500)
+                            MissionNotification()
+                            local DrawCoord = math.random(1, 5)
+                            if DrawCoord == 1 then
+                                VehicleCoords = VehicleSpawn1
+                            elseif DrawCoord == 2 then
+                                VehicleCoords = VehicleSpawn2
+                            elseif DrawCoord == 3 then
+                                VehicleCoords = VehicleSpawn3
+                            elseif DrawCoord == 4 then
+                                VehicleCoords = VehicleSpawn4
+                            elseif DrawCoord == 5 then
+                                VehicleCoords = VehicleSpawn5
+                            end
+                        
+                            RequestModel(GetHashKey('stockade'))
+                            while not HasModelLoaded(GetHashKey('stockade')) do
+                                Citizen.Wait(0)
+                            end
+                        
+                            SetNewWaypoint(VehicleCoords.x, VehicleCoords.y)
+                            ClearAreaOfVehicles(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 15.0, false, false, false, false, false)
+                            transport = CreateVehicle(GetHashKey('stockade'), VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 52.0, true,
+                                true)
+                            SetEntityAsMissionEntity(transport)
+                            TruckBlip = AddBlipForEntity(transport)
+                            SetBlipSprite(TruckBlip, 67)
+                            SetBlipColour(TruckBlip, 46)
+                            SetBlipFlashes(TruckBlip, false)
+                            BeginTextCommandSetBlipName("STRING")
+                            AddTextComponentString('Gruppe Sechs Security Truck')
+                            EndTextCommandSetBlipName(TruckBlip)
+                            --
+                            RequestModel("s_m_m_security_01")
+                            while not HasModelLoaded("s_m_m_security_01") do
+                                Wait(10)
+                            end
+                            pilot = CreatePed(26, "s_m_m_security_01", VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 268.9422, true, false)
+                            navigator = CreatePed(26, "s_m_m_security_01", VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 268.9422, true,
+                                false)
+                            SetPedIntoVehicle(pilot, transport, -1)
+                            SetPedIntoVehicle(navigator, transport, 0)
+                            SetPedFleeAttributes(pilot, 0, 0)
+                            SetPedCombatAttributes(pilot, 46, 1)
+                            SetPedCombatAbility(pilot, 100)
+                            SetPedCombatMovement(pilot, 2)
+                            SetPedCombatRange(pilot, 2)
+                            SetPedKeepTask(pilot, true)
+                            GiveWeaponToPed(pilot, GetHashKey(DriverWep), 250, false, true)
+                            SetPedAsCop(pilot, true)
+                            --
+                            SetPedFleeAttributes(navigator, 0, 0)
+                            SetPedCombatAttributes(navigator, 46, 1)
+                            SetPedCombatAbility(navigator, 100)
+                            SetPedCombatMovement(navigator, 2)
+                            SetPedCombatRange(navigator, 2)
+                            SetPedKeepTask(navigator, true)
+                            TaskEnterVehicle(navigator, transport, -1, 0, 1.0, 1)
+                            GiveWeaponToPed(navigator, GetHashKey(NavWep), 250, false, true)
+                            SetPedAsCop(navigator, true)
+                            --
+                            TaskVehicleDriveWander(pilot, transport, 80.0, 443)
+                            MissionStart = 1
+                            local PlayerData = QBCore.Functions.GetPlayerData()
+                            local PlayerID = PlayerData.citizenid
+                            print('Citizen ID: '..PlayerID..' Has Successfully Trigger the Armored Truck Robbery!')
+                            TriggerServerEvent("QBCore:Server:RemoveItem", itemname, 1)
+                            TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemname], "remove")
+                            Citizen.Wait(60000)
+                            cooldown = false
 
-                    function() -- success
-                        cooldown = true
-                        TriggerServerEvent('qb-truckrobbery:setcooldown')
-                        QBCore.Functions.Notify(Config.HackSuccessNotification, 'success', 4500)
-                        MissionNotification()
-                        local DrawCoord = math.random(1, 5)
-                        if DrawCoord == 1 then
-                            VehicleCoords = VehicleSpawn1
-                        elseif DrawCoord == 2 then
-                            VehicleCoords = VehicleSpawn2
-                        elseif DrawCoord == 3 then
-                            VehicleCoords = VehicleSpawn3
-                        elseif DrawCoord == 4 then
-                            VehicleCoords = VehicleSpawn4
-                        elseif DrawCoord == 5 then
-                            VehicleCoords = VehicleSpawn5
-                        end
+                        end,
+
+                        function() -- failure
+                            QBCore.Functions.Notify(Config.FailureNotification, 'error', 3200)
+                            TriggerServerEvent("QBCore:Server:RemoveItem", itemname, 1)
+                            TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemname], "remove")
+                        end)
+                    elseif Config.HackType == "memory" then
+                        exports["qb-truckrobbery"]:thermiteminigame(10, 3, 3, 6,
+
+                        function() -- success
+                            cooldown = true
+                            TriggerServerEvent('qb-truckrobbery:setcooldown')
+                            QBCore.Functions.Notify(Config.HackSuccessNotification, 'success', 4500)
+                            MissionNotification()
+                            local DrawCoord = math.random(1, 5)
+                            if DrawCoord == 1 then
+                                VehicleCoords = VehicleSpawn1
+                            elseif DrawCoord == 2 then
+                                VehicleCoords = VehicleSpawn2
+                            elseif DrawCoord == 3 then
+                                VehicleCoords = VehicleSpawn3
+                            elseif DrawCoord == 4 then
+                                VehicleCoords = VehicleSpawn4
+                            elseif DrawCoord == 5 then
+                                VehicleCoords = VehicleSpawn5
+                            end
+                        
+                            RequestModel(GetHashKey('stockade'))
+                            while not HasModelLoaded(GetHashKey('stockade')) do
+                                Citizen.Wait(0)
+                            end
+                        
+                            SetNewWaypoint(VehicleCoords.x, VehicleCoords.y)
+                            ClearAreaOfVehicles(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 15.0, false, false, false, false, false)
+                            transport = CreateVehicle(GetHashKey('stockade'), VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 52.0, true,
+                                true)
+                            SetEntityAsMissionEntity(transport)
+                            TruckBlip = AddBlipForEntity(transport)
+                            SetBlipSprite(TruckBlip, 67)
+                            SetBlipColour(TruckBlip, 46)
+                            SetBlipFlashes(TruckBlip, false)
+                            BeginTextCommandSetBlipName("STRING")
+                            AddTextComponentString('Gruppe Sechs Security Truck')
+                            EndTextCommandSetBlipName(TruckBlip)
+                            --
+                            RequestModel("s_m_m_security_01")
+                            while not HasModelLoaded("s_m_m_security_01") do
+                                Wait(10)
+                            end
+                            pilot = CreatePed(26, "s_m_m_security_01", VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 268.9422, true, false)
+                            navigator = CreatePed(26, "s_m_m_security_01", VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 268.9422, true,
+                                false)
+                            SetPedIntoVehicle(pilot, transport, -1)
+                            SetPedIntoVehicle(navigator, transport, 0)
+                            SetPedFleeAttributes(pilot, 0, 0)
+                            SetPedCombatAttributes(pilot, 46, 1)
+                            SetPedCombatAbility(pilot, 100)
+                            SetPedCombatMovement(pilot, 2)
+                            SetPedCombatRange(pilot, 2)
+                            SetPedKeepTask(pilot, true)
+                            GiveWeaponToPed(pilot, GetHashKey(DriverWep), 250, false, true)
+                            SetPedAsCop(pilot, true)
+                            --
+                            SetPedFleeAttributes(navigator, 0, 0)
+                            SetPedCombatAttributes(navigator, 46, 1)
+                            SetPedCombatAbility(navigator, 100)
+                            SetPedCombatMovement(navigator, 2)
+                            SetPedCombatRange(navigator, 2)
+                            SetPedKeepTask(navigator, true)
+                            TaskEnterVehicle(navigator, transport, -1, 0, 1.0, 1)
+                            GiveWeaponToPed(navigator, GetHashKey(NavWep), 250, false, true)
+                            SetPedAsCop(navigator, true)
+                            --
+                            TaskVehicleDriveWander(pilot, transport, 80.0, 443)
+                            MissionStart = 1
+                            local PlayerData = QBCore.Functions.GetPlayerData()
+                            local PlayerID = PlayerData.citizenid
+                            print('Citizen ID: '..PlayerID..' Has Successfully Trigger the Armored Truck Robbery!')
+                            TriggerServerEvent("QBCore:Server:RemoveItem", itemname, 1)
+                            TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemname], "remove")
+                            Citizen.Wait(60000)
+                            cooldown = false
+                        end,
                     
-                        RequestModel(GetHashKey('stockade'))
-                        while not HasModelLoaded(GetHashKey('stockade')) do
-                            Citizen.Wait(0)
-                        end
-                    
-                        SetNewWaypoint(VehicleCoords.x, VehicleCoords.y)
-                        ClearAreaOfVehicles(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 15.0, false, false, false, false, false)
-                        transport = CreateVehicle(GetHashKey('stockade'), VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 52.0, true,
-                            true)
-                        SetEntityAsMissionEntity(transport)
-                        TruckBlip = AddBlipForEntity(transport)
-                        SetBlipSprite(TruckBlip, 67)
-                        SetBlipColour(TruckBlip, 46)
-                        SetBlipFlashes(TruckBlip, false)
-                        BeginTextCommandSetBlipName("STRING")
-                        AddTextComponentString('Gruppe Sechs Security Truck')
-                        EndTextCommandSetBlipName(TruckBlip)
-                        --
-                        RequestModel("s_m_m_security_01")
-                        while not HasModelLoaded("s_m_m_security_01") do
-                            Wait(10)
-                        end
-                        pilot = CreatePed(26, "s_m_m_security_01", VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 268.9422, true, false)
-                        navigator = CreatePed(26, "s_m_m_security_01", VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 268.9422, true,
-                            false)
-                        SetPedIntoVehicle(pilot, transport, -1)
-                        SetPedIntoVehicle(navigator, transport, 0)
-                        SetPedFleeAttributes(pilot, 0, 0)
-                        SetPedCombatAttributes(pilot, 46, 1)
-                        SetPedCombatAbility(pilot, 100)
-                        SetPedCombatMovement(pilot, 2)
-                        SetPedCombatRange(pilot, 2)
-                        SetPedKeepTask(pilot, true)
-                        GiveWeaponToPed(pilot, GetHashKey(DriverWep), 250, false, true)
-                        SetPedAsCop(pilot, true)
-                        --
-                        SetPedFleeAttributes(navigator, 0, 0)
-                        SetPedCombatAttributes(navigator, 46, 1)
-                        SetPedCombatAbility(navigator, 100)
-                        SetPedCombatMovement(navigator, 2)
-                        SetPedCombatRange(navigator, 2)
-                        SetPedKeepTask(navigator, true)
-                        TaskEnterVehicle(navigator, transport, -1, 0, 1.0, 1)
-                        GiveWeaponToPed(navigator, GetHashKey(NavWep), 250, false, true)
-                        SetPedAsCop(navigator, true)
-                        --
-                        TaskVehicleDriveWander(pilot, transport, 80.0, 443)
-                        MissionStart = 1
-                        local PlayerData = QBCore.Functions.GetPlayerData()
-                        local PlayerID = PlayerData.citizenid
-                        print('Citizen ID: '..PlayerID..' Has Successfully Trigger the Armored Truck Robbery!')
-                        TriggerServerEvent("QBCore:Server:RemoveItem", itemname, 1)
-                        TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemname], "remove")
-                        Citizen.Wait(60000)
-                        cooldown = false
-                    end,
-                
-                    function() -- failure
-                        QBCore.Functions.Notify(Config.FailureNotification, 'error', 3200)
-                        TriggerServerEvent("QBCore:Server:RemoveItem", itemname, 1)
-                        TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemname], "remove")
-                    end)
+                        function() -- failure
+                            QBCore.Functions.Notify(Config.FailureNotification, 'error', 3200)
+                            TriggerServerEvent("QBCore:Server:RemoveItem", itemname, 1)
+                            TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemname], "remove")
+                        end)
+                    else
+                        QBCore.Functions.Notify('Error.', 'error', 3200)
+                    end
                 end, function() -- Cancel
                     QBCore.Functions.Notify('Cancelled.', 'error', 3200)
                 end)
