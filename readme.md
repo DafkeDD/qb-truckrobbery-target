@@ -25,6 +25,8 @@ _Bitrate is terrible for some reason, but you will still see how it works._
 
 1. _**You must have QB Framework**_
 
+2. _**If you change Config.HackType to "hacking" then you must have [this resource](https://github.com/Jesper-Hustad/NoPixel-minigame/tree/main/fivem-script/hacking).**_
+
 **With the latest version of QB's Framework, you will not need to download anything.**
 **If you do not have qb-target, you must download it.**
 
